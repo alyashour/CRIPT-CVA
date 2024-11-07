@@ -51,7 +51,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: dist/app.zip  # This ensures the entire .app bundle is uploaded
-          tag_name: ${{ github.ref }} 
+          tag_name: ${{ github.ref_name }} 
 
       - name: Upload the release asset
         uses: softprops/action-gh-release@v1
