@@ -23,7 +23,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pipenv  # Ensure Pipenv is installed
-          pipenv install  # Install dependencies (including PyInstaller)
+          pipenv install -d # Install dependencies (including PyInstaller)
 
       - name: Build with PyInstaller
         run: |
