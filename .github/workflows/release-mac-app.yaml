@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'  # Get the version from the previous step
+          python-version: 3.12  # Get the version from the previous step
 
       - name: Install dependencies
         run: |
@@ -28,17 +28,19 @@ jobs:
       - name: Build with PyInstaller
         run: |
           pipenv run pyinstaller --onefile --windowed --icon=app.ico src/main.py
-          
+
+      - name: Check that the App works
+        run: ./dist/main
+
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/main.app
+          path: ./dist/*  # This ensures the entire .app bundle is uploaded
 
       - name: Upload the release asset
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/main.app  # The uploaded archive for release
+          path: ./dist/*  # Ensure the entire .app bundle is uploaded to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate API requests
-     
