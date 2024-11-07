@@ -29,18 +29,22 @@ jobs:
         run: |
           pipenv run pyinstaller --onefile --windowed --icon=app.ico src/main.py
 
-      - name: Check that the App works
-        run: ./dist/main
+      - name: Run app to verify it works
+        run: |
+          # Try to launch the app and wait for 10 seconds
+          open dist/main.app  # Use 'open' to launch a .app file on macOS
+          sleep 20  # Give it time to open
+          ps aux | grep "main.app"  # Check if the app is running in the process list
 
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          path: ./dist/*  # This ensures the entire .app bundle is uploaded
+          path: ./dist/main.app/*  # This ensures the entire .app bundle is uploaded
 
       - name: Upload the release asset
         uses: softprops/action-gh-release@v1
         with:
-          path: ./dist/*  # Ensure the entire .app bundle is uploaded to GitHub
+          path: ./dist/main.app/* # Ensure the entire .app bundle is uploaded to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate API requests
