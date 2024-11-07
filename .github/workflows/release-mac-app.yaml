@@ -29,6 +29,11 @@ jobs:
         run: |
           pipenv run pyinstaller --onefile --windowed --icon=app.ico src/main.py
 
+      - name: Verify app creation
+        run: |
+          ls dist  # List files in the dist folder to ensure the app exists
+          ls dist/main.app  # List contents of the .app bundle to check if it's there
+          
       - name: Run app to verify it works
         run: |
           # Try to launch the app and wait for 10 seconds
