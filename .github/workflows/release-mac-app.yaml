@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*'  # Trigger on version tags like v1.0.0, v0.1.0, etc.
   workflow_dispatch:
+    inputs:
+        version:
+          description: 'The version of the app'
+          required: false
+          default: 'auto'
 
 jobs:
   build:
