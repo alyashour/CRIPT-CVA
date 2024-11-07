@@ -13,18 +13,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3  # Checkout the repository code
-
-      - name: Set up Python from Pipfile
-        id: setup_python
-        run: |
-          python -c "import toml; print(toml.load('Pipfile')['default']['python_version'])" > python_version.txt
-          echo "Python version is $(cat python_version.txt)"
-          echo "::set-output name=python_version::$(cat python_version.txt)"
         
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ steps.setup_python.outputs.python_version }}  # Get the version from the previous step
+          python-version: '3.12'  # Get the version from the previous step
 
       - name: Install dependencies
         run: |
