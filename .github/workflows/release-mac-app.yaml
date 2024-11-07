@@ -37,13 +37,6 @@ jobs:
         run: |
           ls dist  # List files in the dist folder to ensure the app exists
           ls dist/main.app  # List contents of the .app bundle to check if it's there
-          
-      # - name: Run app to verify it works
-      #   run: |
-      #     # Try to launch the app and wait for 10 seconds
-      #     open dist/main.app  # Use 'open' to launch a .app file on macOS
-      #     sleep 20  # Give it time to open
-      #     ps aux | grep "main.app"  # Check if the app is running in the process list
 
       - name: Zip the .app bundle
         run: |
@@ -61,5 +54,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: dist/app.zip # Ensure the entire .app bundle is uploaded to GitHub
+          tag_name: 0.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate API requests
