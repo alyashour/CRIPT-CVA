@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 setuptools-scm = "*"
 pillow = "*"
+requests = "*"
+packaging = "*"
 
 [dev-packages]
 pyinstaller = "*"
