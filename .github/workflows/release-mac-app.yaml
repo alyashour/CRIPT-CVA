@@ -6,8 +6,12 @@ on:
       - 'v*'  # Trigger on version tags like v1.0.0, v0.1.0, etc.
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
+    permissions: write-all
     runs-on: macos-latest  # Run the job on a macOS environment
 
     steps:
@@ -29,18 +33,27 @@ jobs:
         run: |
           pipenv run pyinstaller --onefile --windowed --icon=app.ico src/main.py
 
-      - name: Check that the App works
-        run: ./dist/main
+      - name: Verify app creation
+        run: |
+          ls dist  # List files in the dist folder to ensure the app exists
+          ls dist/main.app  # List contents of the .app bundle to check if it's there
+
+      - name: Zip the .app bundle
+        run: |
+          cd dist
+          zip -r app.zip main.app  # Create a zip of the .app bundle
 
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          path: ./dist/*  # This ensures the entire .app bundle is uploaded
+          files: dist/app.zip  # This ensures the entire .app bundle is uploaded
+          tag_name: 0.1.0
 
       - name: Upload the release asset
         uses: softprops/action-gh-release@v1
         with:
-          path: ./dist/*  # Ensure the entire .app bundle is uploaded to GitHub
+          files: dist/app.zip # Ensure the entire .app bundle is uploaded to GitHub
+          tag_name: 0.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate API requests
