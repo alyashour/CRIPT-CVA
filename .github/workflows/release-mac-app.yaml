@@ -41,16 +41,21 @@ jobs:
           sleep 20  # Give it time to open
           ps aux | grep "main.app"  # Check if the app is running in the process list
 
+      - name: Zip the .app bundle
+        run: |
+          cd dist
+          zip -r app.zip main.app  # Create a zip of the .app bundle
+
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/main.app/  # This ensures the entire .app bundle is uploaded
+          files: dist/app.zip  # This ensures the entire .app bundle is uploaded
           tag_name: ${{ github.ref }} 
 
       - name: Upload the release asset
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/main.app/ # Ensure the entire .app bundle is uploaded to GitHub
+          files: dist/app.zip # Ensure the entire .app bundle is uploaded to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate API requests
