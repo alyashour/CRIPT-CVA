@@ -1,6 +1,6 @@
 import requests
 from packaging import version
-from src import __version__ as current_version
+from version import version as app_version
 
 def check_for_update():
     """
@@ -14,7 +14,7 @@ def check_for_update():
         latest_version = latest_release['tag_name']
         release_url = latest_release['assets'][0]['browser_download_url']
 
-        if version.parse(latest_version) > version.parse(current_version):
+        if version.parse(latest_version) > version.parse(app_version):
             return latest_version, release_url
         return None, None  # No update needed
 

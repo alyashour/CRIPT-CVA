@@ -4,7 +4,7 @@ import sys
 import requests
 import zipfile
 from io import BytesIO
-from src import __version__ as current_version
+from version import version
 
 def _is_executable():
     return getattr(sys, 'frozen', False)

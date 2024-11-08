@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="Video">
+       <property name="maximumSize">
+        <size>
+         <width>770</width>
+         <height>489</height>
+        </size>
+       </property>
+       <attribute name="title">
+        <string>Video</string>
+       </attribute>
+       <widget class="QWidget" name="formWidget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>721</width>
+          <height>461</height>
+         </rect>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>761</width>
+          <height>481</height>
+         </size>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="sizeConstraint">
+          <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
+         </property>
+         <property name="verticalSpacing">
+          <number>10</number>
+         </property>
+         <property name="leftMargin">
+          <number>20</number>
+         </property>
+         <property name="topMargin">
+          <number>20</number>
+         </property>
+         <property name="rightMargin">
+          <number>20</number>
+         </property>
+         <property name="bottomMargin">
+          <number>20</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="inputFileLabel">
+           <property name="text">
+            <string>Input File</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QWidget" name="inputFileWidget" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLineEdit" name="filePathEdit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="selectFileButton">
+              <property name="text">
+               <string>Select File</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="divisionsLabel">
+           <property name="text">
+            <string>Number of Divisions</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="0">
+          <widget class="QPushButton" name="cancelButton">
+           <property name="text">
+            <string>Cancel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QPushButton" name="submitButton">
+           <property name="text">
+            <string>Submit</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="Live">
+       <attribute name="title">
+        <string>Live</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>37</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuCRIPT">
+    <property name="title">
+     <string>CRIPT CVA</string>
+    </property>
+    <addaction name="actionSettings"/>
+   </widget>
+   <addaction name="menuCRIPT"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionStart_Analysis">
+   <property name="text">
+    <string>Start Analysis</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
