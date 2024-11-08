@@ -32,8 +32,7 @@ def download_release(release_url):
 
         # make sure the executable is a unix executable and not a document (extraction bug in ZipFile)
         # consider contributing to ZipFile to fix the issue
-        # todo: change main.app to criptcva.app in 0.2.1
-        os.chmod(os.path.join(app_dir, 'main.app', 'Contents', 'MacOS', 'main'), 0o755)
+        os.chmod(os.path.join(app_dir, 'criptcva.app', 'Contents', 'MacOS', 'main'), 0o755)
 
         # Step 3: Rename old version
         old_app_path = os.path.join(app_dir, f'old_v{current_version}.app')
