@@ -1,34 +1,48 @@
 import os
+import sys
+
 import requests
 import zipfile
-import shutil
 from io import BytesIO
+from src import __version__ as current_version
 
+def _is_executable():
+    return getattr(sys, 'frozen', False)
 
 def download_release(release_url):
     """
     Download the latest release from the provided URL and apply it.
     """
     try:
+        # Step 1: Download the release zip file
         response = requests.get(release_url)
         response.raise_for_status()
-
-        # For a .zip file, for example
         zip_file = BytesIO(response.content)
+
+        # Step 2: Extract the zip contents into the parent folder
+        if _is_executable():
+            exe_path = sys.executable
+            app_path = os.path.dirname(os.path.dirname(os.path.dirname(exe_path)))
+            app_dir = os.path.dirname(app_path)
+        else:
+            raise Exception("Do not update source. Updater is only for executables.")
+
         with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-            # Extract the contents of the zip to the current directory (or a specific folder)
-            extract_path = os.path.join(os.getcwd(), 'new_version')
-            zip_ref.extractall(extract_path)
+            zip_ref.extractall(app_dir)
 
-        # Optional: Replace old version with new version
-        old_version_folder = os.path.join(os.getcwd(), 'old_version')
-        if os.path.exists(old_version_folder):
-            shutil.rmtree(old_version_folder)
-        os.rename(extract_path, old_version_folder)
+        # make sure the executable is a unix executable and not a document (extraction bug in ZipFile)
+        # consider contributing to ZipFile to fix the issue
+        # todo: change main.app to criptcva.app in 0.2.1
+        os.chmod(os.path.join(app_dir, 'main.app', 'Contents', 'MacOS', 'main'), 0o755)
 
-        # You can also implement logic to move or update specific files (like replacing the app binary, etc.)
+        # Step 3: Rename old version
+        old_app_path = os.path.join(app_dir, f'old_v{current_version}.app')
+        if os.path.exists(old_app_path):
+            os.remove(old_app_path)  # Clean up any previous old version
+        os.rename(app_path, old_app_path)
 
         print("Update downloaded and applied successfully!")
+
     except requests.exceptions.RequestException as e:
         print(f"Error downloading the release: {e}")
         raise e

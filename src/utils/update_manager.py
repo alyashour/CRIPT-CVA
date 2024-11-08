@@ -1,34 +1,44 @@
 import logging
 import os
+from os.path import dirname
+import subprocess
 import sys
-from utils.release_manager import download_release
 from tkinter import messagebox
+from utils.release_manager import download_release
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
+def perform_update(latest_version, release_url) -> bool:
+    """Handles the update process: check for updates, download, and apply."""
+    if latest_version and release_url:
+        try:
+            logging.info(f"Downloading update for version {latest_version}...")
+            download_release(release_url)
+            logging.info("Update downloaded successfully!")
+            messagebox.showinfo("Update Successful", "The update has been downloaded successfully!")
+            do_restart = messagebox.askyesno("Restart App?", "Would you like to restart immediately?")
+            if do_restart:
+                restart_app()
+        except Exception as e:
+            logging.error(f"Error during the update process: {e}")
+            messagebox.showerror("Update Failed", f"There was an error updating the application.\n{e}")
+            return False
+    else:
+        logging.info("No updates available.")
 
-def perform_update(release_url):
-    """Handle the update process: check for updates, download and apply."""
-    try:
-        logging.info("Checking for updates...")
-
-        # Download the release
-        logging.info(f"Downloading the update from {release_url}...")
-        download_release(release_url)
-
-        # Notify the user
-        logging.info("Update downloaded successfully!")
-
-        # You might trigger a restart or any other post-update action here
-        messagebox.showinfo("Update Success", "The application has been updated successfully!")
-
-    except Exception as e:
-        logging.error(f"Error during the update process: {e}")
-        messagebox.showerror("Update Failed", "There was an error while updating the application.")
+    return True
 
 def restart_app():
-    """Restart the application after the update."""
-    print("Restarting the application...")
-    python = sys.executable
-    os.execv(python, ['python'] + sys.argv)  # Restart the application with the same arguments
+    """Restarts the application after the update."""
+    executable_path = os.path.join(dirname(dirname(dirname(dirname(sys.executable)))), 'main.app')
+    if os.path.isdir(executable_path) and os.access(executable_path, os.X_OK):
+        messagebox.showinfo("Restarting", f"Restarting the app from: {executable_path}")
+        # Use subprocess to restart the app as an executable
+        subprocess.Popen(["/usr/bin/open", "-a", executable_path], start_new_session=True)
+    else:
+        messagebox.showerror(
+            "Error",
+            "Could not find the app executable to restart.\n"
+            "Please close and open manually."
+        )

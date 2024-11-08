@@ -8,6 +8,7 @@ class UpdateWindow(tk.Toplevel):
 
     def __init__(self, parent, latest_version, release_url):
         super().__init__(parent)
+        self.parent = parent
         self.title("Update Available")
         self.geometry("300x150")
 
@@ -18,18 +19,21 @@ class UpdateWindow(tk.Toplevel):
         label.pack(pady=20)
 
         # Button to trigger the update
-        update_button = tk.Button(self, text="Update", command=lambda: self.initiate_update(release_url))
+        update_button = tk.Button(self, text="Update", command=lambda: self.initiate_update(latest_version, release_url))
         update_button.pack(pady=5)
 
         # Button to close the window without updating
         close_button = tk.Button(self, text="Later", command=self.destroy)
         close_button.pack(pady=5)
 
-    def initiate_update(self, release_url):
+    def initiate_update(self, latest_version, release_url):
         """Initiate the update by calling the update manager to download and apply the update."""
-        perform_update(release_url)
-        self.destroy()
-        messagebox.showinfo("Update Completed", "The application has been updated!")
+        success = perform_update(latest_version, release_url)
+
+        if success:
+            messagebox.showinfo("Update Completed", "Update complete!")
+            
+            self.parent.close_app()
 
 
 # Function to create and display the update window
