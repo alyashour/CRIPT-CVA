@@ -1,14 +1,13 @@
 import tkinter as tk
 from utils.version_utils import check_for_update
 from gui.update_window import show_update_window
-from src import __version__
-
+from version import version
 
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         self.geometry("400x400")
-        self.title(f"Crypt CVA App {__version__}")
+        self.title(f"Crypt CVA App {version}")
 
         # Add title
         self.label = tk.Label(self, text="Welcome to My Application!")
