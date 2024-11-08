@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*'  # Trigger on version tags like v1.0.0, v0.1.0, etc.
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number for the release'
+        required: false  # Optional, so it’s only needed for manual trigger
+        default: ''
 
 permissions:
   contents: write
@@ -17,11 +22,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3  # Checkout the repository code
-        
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.12.3  # Get the version from the previous step
+          python-version: 3.12.3  # Specify the Python version
 
       - name: Install dependencies
         run: |
@@ -48,12 +53,12 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: dist/app.zip  # This ensures the entire .app bundle is uploaded
-          tag_name: ${{  github.ref_name }}
+          tag_name: ${{ github.event.inputs.version || github.ref_name }}  # Use version input or ref name based on trigger
 
       - name: Upload the release asset
         uses: softprops/action-gh-release@v1
         with:
           files: dist/app.zip # Ensure the entire .app bundle is uploaded to GitHub
-          tag_name: ${{  github.ref_name }}
+          tag_name: ${{ github.event.inputs.version || github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate API requests
