@@ -31,7 +31,7 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-          pipenv run pyinstaller --onefile --windowed --icon=app.ico src/main.py
+          pipenv run pyinstaller main.spec --noconfirm
 
       - name: Verify app creation
         run: |
@@ -41,19 +41,19 @@ jobs:
       - name: Zip the .app bundle
         run: |
           cd dist
-          zip -r app.zip main.app  # Create a zip of the .app bundle
+          zip -r app.zip criptcva.app  # Create a zip of the .app bundle
 
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
           files: dist/app.zip  # This ensures the entire .app bundle is uploaded
-          tag_name: 0.1.0
+          tag_name: ${{  github.ref_name }}
 
       - name: Upload the release asset
         uses: softprops/action-gh-release@v1
         with:
           files: dist/app.zip # Ensure the entire .app bundle is uploaded to GitHub
-          tag_name: 0.1.0
+          tag_name: ${{  github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate API requests
