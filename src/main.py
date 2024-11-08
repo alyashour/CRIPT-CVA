@@ -1,14 +1,15 @@
-from gui.main_window import MainWindow  # Import the MainWindow class from the gui module
-
+import sys
+from PyQt5.QtWidgets import QApplication
+from gui import MainWindow
 
 def main():
-    """Start the application."""
-    # Create an instance of the MainWindow
-    app = MainWindow()
+    # Create the application instance
+    app = QApplication(sys.argv)
 
-    # Start the Tkinter main loop to display the window
-    app.mainloop()
-
+    # Create the main window
+    window = MainWindow()
+    window.show()
+    app.exec()
 
 if __name__ == "__main__":
     main()

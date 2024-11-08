@@ -8,6 +8,9 @@ setuptools-scm = "*"
 pillow = "*"
 requests = "*"
 packaging = "*"
+pyqt5 = "*"
+pyqt5-stubs = "==5.15.6.0"
+pyqt5-sip = "*"
 
 [dev-packages]
 pyinstaller = "*"
